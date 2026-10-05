@@ -59,25 +59,25 @@ export function Header({ active }: { active: ChapterKey | null }) {
         )}
       />
       <Container className="relative grid h-[72px] grid-cols-[auto_1fr_auto] items-center gap-4 md:h-[88px]">
-        <a href="#topo" aria-label="Postero, início" className="flex items-center">
-          <img src={logo} alt="Postero" width={272} height={56} className="brand-art block h-5 w-auto md:h-[24px]" />
+        <a href="#topo" aria-label="Postero, início" className="flex shrink-0 items-center">
+          <img src={logo} alt="Postero" width={272} height={56} className="brand-art block h-5 w-auto max-w-none md:h-[24px]" />
         </a>
 
-        <div className="relative flex justify-center">
+        <div className="relative flex min-w-0 justify-center">
           <button
             ref={buttonRef}
             type="button"
             aria-expanded={open}
             aria-controls={menuId}
             onClick={() => setOpen((v) => !v)}
-            className="group flex min-h-11 cursor-pointer items-center gap-3 border-0 bg-transparent px-2 text-label tracking-label text-muted uppercase transition-colors duration-300 hover:text-heading"
+            className="group flex min-h-11 min-w-0 cursor-pointer items-center gap-3 border-0 bg-transparent px-2 text-label tracking-label text-muted uppercase transition-colors duration-300 hover:text-heading"
           >
             <span className="sr-only">Capítulos{current ? `, atual: ${current.numeral} ${current.label}` : ""}</span>
-            <span aria-hidden className="relative block h-4 overflow-hidden">
+            <span aria-hidden className="relative block h-4 min-w-0 overflow-hidden">
               <AnimatePresence mode="popLayout" initial={false}>
                 <motion.span
                   key={current?.id ?? "inicio"}
-                  className="block whitespace-nowrap"
+                  className="block truncate"
                   {...slot}
                   transition={{ duration: 0.6, ease: EASE }}
                 >
@@ -98,7 +98,7 @@ export function Header({ active }: { active: ChapterKey | null }) {
               width="10"
               height="10"
               viewBox="0 0 10 10"
-              className={cn("transition-transform duration-500 ease-out-soft", open && "rotate-180")}
+              className={cn("shrink-0 transition-transform duration-500 ease-out-soft", open && "rotate-180")}
             >
               <path d="M1 3l4 4 4-4" fill="none" stroke="currentColor" strokeWidth="1.2" />
             </svg>
@@ -132,16 +132,21 @@ export function Header({ active }: { active: ChapterKey | null }) {
                     ))}
                   </ol>
                 </nav>
+                <div className="mt-2 border-t border-line p-2 pt-4 md:hidden">
+                  <PillLink href="#contato" onClick={() => setOpen(false)} className="w-full justify-center">
+                    Agendar conversa
+                  </PillLink>
+                </div>
               </motion.div>
             )}
           </AnimatePresence>
         </div>
 
-        <div className="flex items-center gap-1 sm:gap-3">
+        <div className="flex items-center gap-3">
           <ThemeToggle />
-          <PillLink href="#contato" className="max-[420px]:hidden">
-            Agendar conversa
-          </PillLink>
+          <div className="hidden md:block">
+            <PillLink href="#contato">Agendar conversa</PillLink>
+          </div>
         </div>
       </Container>
     </motion.header>
