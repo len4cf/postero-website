@@ -1,16 +1,8 @@
-import {
-  motion,
-  useMotionValue,
-  useScroll,
-  useSpring,
-} from "motion/react";
-import { useRef, useState, type PointerEvent } from "react";
+import { motion, useScroll } from "motion/react";
+import { useRef } from "react";
 import { chapter, services, servicesIntro } from "../../data/content";
 import { photos } from "../../data/photos";
-import { useMediaQuery } from "../../hooks/useMediaQuery";
-import { useMotionMode } from "../../hooks/useMotionMode";
 import { EASE } from "../../lib/motion";
-import { cn } from "../../lib/cn";
 import { ParallaxColumn } from "../motion/ParallaxColumn";
 import { ParallaxImage } from "../motion/ParallaxImage";
 import { Accent, RevealText } from "../motion/RevealText";
@@ -57,38 +49,11 @@ function Gallery() {
 }
 
 function ServiceList() {
-  const [active, setActive] = useState<number | null>(null);
-  const [inside, setInside] = useState(false);
-  const { reduced } = useMotionMode();
-  const finePointer = useMediaQuery(
-    "(hover: hover) and (pointer: fine) and (min-width: 900px)",
-  );
-  const showLens = finePointer && !reduced;
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  const lensX = useSpring(x, { stiffness: 900, damping: 50 });
-  const lensY = useSpring(y, { stiffness: 900, damping: 50 });
-
-  const onMove = (e: PointerEvent<HTMLUListElement>) => {
-    const box = e.currentTarget.getBoundingClientRect();
-    x.set(e.clientX - box.left);
-    y.set(e.clientY - box.top);
-  };
-
   return (
-    <ul
-      className={cn("relative m-0 list-none border-b border-line-strong p-0", showLens && "cursor-none")}
-      onPointerMove={showLens ? onMove : undefined}
-      onPointerEnter={() => setInside(true)}
-      onPointerLeave={() => {
-        setActive(null);
-        setInside(false);
-      }}
-    >
+    <ul className="relative m-0 list-none border-b border-line-strong p-0">
       {services.map((service, i) => (
         <motion.li
           key={service.title}
-          onPointerEnter={() => setActive(i)}
           className="group relative grid grid-cols-[48px_1fr] gap-x-4 gap-y-3 border-t border-line-strong py-8 md:grid-cols-[96px_minmax(0,7fr)_minmax(0,4fr)] md:items-center md:gap-x-10 md:py-12"
           initial={{ opacity: 0, y: 28 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -113,20 +78,6 @@ function ServiceList() {
           </p>
         </motion.li>
       ))}
-
-
-      {showLens &&
-        ["bg-lens mix-blend-multiply", "border border-accent-line"].map((look) => (
-          <motion.div
-            key={look}
-            aria-hidden
-            className={cn("pointer-events-none absolute top-0 left-0 z-20 size-28 rounded-full", look)}
-            style={{ x: lensX, y: lensY, translateX: "-50%", translateY: "-50%" }}
-            initial={false}
-            animate={{ scale: inside ? (active !== null ? 1.35 : 1) : 0, opacity: inside ? 1 : 0 }}
-            transition={{ duration: 0.5, ease: EASE }}
-          />
-        ))}
     </ul>
   );
 }

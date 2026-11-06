@@ -9,7 +9,9 @@ import { Eyebrow } from "../ui/Eyebrow";
 
 const { numeral, label } = chapter("formacao");
 
-const FormacaoPage = lazy(() => import("../formacao/FormacaoPage").then((m) => ({ default: m.FormacaoPage })));
+const FormacaoPage = lazy(() =>
+  import("../formacao/FormacaoPage").then((m) => ({ default: m.FormacaoPage })),
+);
 
 export function Education() {
   const { open, show, onClosed, triggerRef } = useSheet();
@@ -38,10 +40,16 @@ export function Education() {
               className="group relative flex min-h-11 shrink-0 cursor-pointer items-center gap-3 self-start border-0 bg-transparent p-0 font-sans text-label tracking-label text-muted uppercase transition-colors duration-300 hover:text-heading md:mb-3 md:self-end"
             >
               Ver formação completa
-              <span aria-hidden className="text-accent transition-transform duration-500 ease-out-soft group-hover:translate-x-1">
+              <span
+                aria-hidden
+                className="text-accent transition-transform duration-500 ease-out-soft group-hover:translate-x-1"
+              >
                 →
               </span>
-              <span aria-hidden className="absolute inset-x-0 bottom-2 h-px bg-line-strong" />
+              <span
+                aria-hidden
+                className="absolute inset-x-0 bottom-2 h-px bg-line-strong"
+              />
               <span
                 aria-hidden
                 className="absolute inset-x-0 bottom-2 h-px origin-left scale-x-0 bg-accent transition-transform duration-700 ease-out-soft group-hover:scale-x-100"
