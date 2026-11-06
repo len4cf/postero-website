@@ -18,14 +18,14 @@ function Column({ title, children }: { title: string; children: ReactNode }) {
   );
 }
 
-export function Footer() {
+export function Footer({ linkBase = "" }: { linkBase?: string }) {
   return (
     <footer className="border-t border-line bg-background">
       <Container className="flex flex-col gap-20 pt-24 pb-10 md:gap-28 md:pt-32">
         <div className="grid grid-cols-1 gap-x-10 gap-y-14 sm:grid-cols-2 lg:grid-cols-12">
           <div className="flex max-w-[380px] flex-col gap-7 sm:col-span-2 lg:col-span-5">
             <a
-              href="#topo"
+              href={`${linkBase}#topo`}
               aria-label="Postero, início"
               className="flex self-start"
             >
@@ -49,7 +49,7 @@ export function Footer() {
               <ul className="m-0 grid list-none grid-cols-2 gap-x-8 gap-y-3.5 p-0">
                 {footerLinks.map((link) => (
                   <li key={link.href}>
-                    <a href={link.href} className={linkClass}>
+                    <a href={`${linkBase}${link.href}`} className={linkClass}>
                       {link.label}
                     </a>
                   </li>
@@ -88,6 +88,12 @@ export function Footer() {
             <span>
               CNPJ <Placeholder>{contact.cnpj}</Placeholder>
             </span>
+            <a
+              href="/privacidade"
+              className="text-dim no-underline transition-colors duration-300 hover:text-heading"
+            >
+              Política de privacidade
+            </a>
           </div>
           <div className="flex items-center gap-4">
             <span className="text-label tracking-label text-dim">
